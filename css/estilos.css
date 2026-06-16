@@ -1,0 +1,234 @@
+/* Css inspirado en mi perro Kenay */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f5ebdd;
+    color: #3e2723;
+}
+
+header {
+    background: linear-gradient(135deg, #6f4e37, #a67b5b);
+    color: white;
+    padding: 28px;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 34px;
+}
+
+header p {
+    margin: 8px 0 0;
+}
+
+nav {
+    background: #3e2723;
+    padding: 12px;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 16px;
+    background: #8d6e63;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+nav a:hover {
+    background: #d2b48c;
+    color: #3e2723;
+}
+
+main {
+    width: 92%;
+    max-width: 1100px;
+    margin: 28px auto;
+}
+
+.card {
+    background: #fffaf3;
+    border: 1px solid #d2b48c;
+    border-radius: 16px;
+    padding: 22px;
+    margin-bottom: 22px;
+    box-shadow: 0 4px 12px rgba(62, 39, 35, 0.15);
+}
+
+h2 {
+    color: #6f4e37;
+    margin-top: 0;
+}
+
+form {
+    display: grid;
+    gap: 12px;
+}
+
+label {
+    font-weight: bold;
+    color: #4e342e;
+}
+
+input,
+select {
+    padding: 10px;
+    border: 1px solid #a67b5b;
+    border-radius: 8px;
+    font-size: 15px;
+    background: white;
+}
+
+input[type='checkbox'],
+input[type='radio'] {
+    width: auto;
+}
+
+.form-fila {
+    display: grid;
+    gap: 6px;
+}
+
+.opciones {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+button,
+.boton {
+    background: #6f4e37;
+    color: white;
+    border: none;
+    padding: 11px 18px;
+    border-radius: 20px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+}
+
+button:hover,
+.boton:hover {
+    background: #a67b5b;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+th {
+    background: #6f4e37;
+    color: white;
+    padding: 12px;
+}
+
+td {
+    border-bottom: 1px solid #ead8c0;
+    padding: 11px;
+    text-align: center;
+}
+
+tr:hover {
+    background: #fbf3e8;
+}
+
+.mensaje {
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 16px;
+}
+
+.exito {
+    background: #e7f3df;
+    border: 1px solid #89a86b;
+    color: #2e4d1f;
+}
+
+.error {
+    background: #ffe7de;
+    border: 1px solid #c46a4a;
+    color: #6b2b1d;
+}
+
+.info {
+    background: #f3e2c7;
+    border: 1px solid #a67b5b;
+    color: #3e2723;
+}
+
+.badge {
+    padding: 6px 10px;
+    border-radius: 14px;
+    font-weight: bold;
+}
+
+.disponible {
+    background: #d8edc2;
+    color: #31521e;
+    white-space: nowrap;
+}
+
+.no-disponible {
+    background: #ffd6c7;
+    color: #6b2b1d;
+    white-space: nowrap;
+}
+
+.grid-estadisticas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+}
+
+.estadistica {
+    background: #fff;
+    border: 1px solid #d2b48c;
+    border-radius: 14px;
+    padding: 18px;
+    text-align: center;
+}
+
+.numero {
+    font-size: 28px;
+    font-weight: bold;
+    color: #6f4e37;
+}
+
+footer {
+    text-align: center;
+    padding: 18px;
+    color: #6f4e37;
+}
+
+.acciones {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.pequeno {
+    font-size: 13px;
+    padding: 8px 12px;
+}
