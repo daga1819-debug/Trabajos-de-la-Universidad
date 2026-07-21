@@ -1,0 +1,1110 @@
+/* ----------------------------------------------------------
+    CSS inspirado en los colores que representan la naturaleza de Costa Rica.
+   ---------------------------------------------------------- */
+
+
+/*
+    Colores que se utilizan en todo el sitio web. Se definen como variables CSS para facilitar su uso y mantenimiento.:
+ */
+:root {
+    --verde-oscuro: #0b3d2e;
+    --verde-medio: #197149;
+    --verde-claro: #74c69d;
+    --verde-muy-claro: #eaf7ef;
+    --azul: #1976b9;
+    --azul-oscuro: #0c4f7c;
+    --rojo: #d62828;
+    --rojo-oscuro: #a81919;
+    --blanco: #ffffff;
+    --gris-fondo: #f4f7f5;
+    --gris-claro: #e4e9e6;
+    --gris-texto: #5f6b65;
+    --texto: #1c2b24;
+    --sombra: 0 14px 35px rgba(11, 61, 46, 0.13);
+    --radio: 18px;
+    --transicion: 0.25s ease;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--texto);
+    background: var(--gris-fondo);
+    line-height: 1.6;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+a {
+    color: var(--azul-oscuro);
+    text-decoration: none;
+    transition: color var(--transicion);
+}
+
+a:hover {
+    color: var(--rojo);
+}
+
+button,
+input,
+select {
+    font: inherit;
+}
+
+button,
+a.boton {
+    cursor: pointer;
+}
+
+/* Mejora la accesibilidad al navegar con teclado. */
+:focus-visible {
+    outline: 3px solid rgba(25, 118, 185, 0.4);
+    outline-offset: 3px;
+}
+
+/* ----------------------------------------------------------
+    COMPONENTES REUTILIZABLES
+   ---------------------------------------------------------- */
+.boton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 45px;
+    padding: 0.72rem 1.2rem;
+    border: 0;
+    border-radius: 10px;
+    font-weight: 700;
+    text-align: center;
+    transition: transform var(--transicion), box-shadow var(--transicion), background var(--transicion);
+}
+
+.boton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(11, 61, 46, 0.18);
+}
+
+.boton-principal {
+    color: var(--blanco);
+    background: var(--verde-oscuro);
+}
+
+.boton-principal:hover {
+    color: var(--blanco);
+    background: var(--verde-medio);
+}
+
+.boton-secundario {
+    color: var(--verde-oscuro);
+    background: var(--verde-muy-claro);
+    border: 1px solid var(--verde-claro);
+}
+
+.boton-rojo {
+    color: var(--blanco);
+    background: var(--rojo);
+}
+
+.boton-rojo:hover {
+    color: var(--blanco);
+    background: var(--rojo-oscuro);
+}
+
+.boton-blanco {
+    color: var(--verde-oscuro);
+    background: var(--blanco);
+}
+
+.boton-completo {
+    width: 100%;
+}
+
+.etiqueta,
+.etiqueta-clara {
+    display: inline-block;
+    margin-bottom: 0.5rem;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.etiqueta {
+    color: var(--verde-medio);
+}
+
+.etiqueta-clara {
+    color: #d9f8e8;
+}
+
+.mensaje {
+    padding: 0.85rem 1rem;
+    margin: 1rem 0;
+    border-radius: 10px;
+    font-size: 0.92rem;
+}
+
+.mensaje-error {
+    color: #821818;
+    background: #ffe5e5;
+    border-left: 4px solid var(--rojo);
+}
+
+.grupo-campo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.42rem;
+}
+
+.grupo-campo label {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--verde-oscuro);
+}
+
+.grupo-campo input,
+.grupo-campo select {
+    width: 100%;
+    min-height: 47px;
+    padding: 0.72rem 0.85rem;
+    color: var(--texto);
+    background: var(--blanco);
+    border: 1px solid #cbd5cf;
+    border-radius: 10px;
+    transition: border-color var(--transicion), box-shadow var(--transicion);
+}
+
+.grupo-campo input:focus,
+.grupo-campo select:focus {
+    border-color: var(--azul);
+    box-shadow: 0 0 0 4px rgba(25, 118, 185, 0.1);
+    outline: none;
+}
+
+.seccion {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 5rem 1.4rem;
+}
+
+.seccion-clara {
+    max-width: none;
+    padding-left: max(1.4rem, calc((100% - 1200px) / 2 + 1.4rem));
+    padding-right: max(1.4rem, calc((100% - 1200px) / 2 + 1.4rem));
+    background: var(--verde-muy-claro);
+}
+
+.encabezado-seccion {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.encabezado-seccion.compacto {
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.encabezado-seccion h2 {
+    color: var(--verde-oscuro);
+    font-size: clamp(1.8rem, 3vw, 2.65rem);
+    line-height: 1.15;
+}
+
+.encabezado-seccion p {
+    max-width: 650px;
+    margin-top: 0.55rem;
+    color: var(--gris-texto);
+}
+
+.encabezado-seccion>a {
+    flex-shrink: 0;
+    font-weight: 700;
+}
+
+/* ----------------------------------------------------------
+    INICIO DE SESIÓN
+   ---------------------------------------------------------- */
+.pagina-login {
+    background: var(--blanco);
+}
+
+.login-contenedor {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    min-height: 100vh;
+}
+
+.login-presentacion {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    min-height: 100vh;
+    padding: 4rem;
+    color: var(--blanco);
+    background:
+        linear-gradient(180deg, rgba(6, 40, 29, 0.18), rgba(6, 40, 29, 0.92)),
+        url("../img/arenal.jpg") center / cover no-repeat;
+}
+
+.login-presentacion::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 8px;
+    height: 100%;
+    background: linear-gradient(var(--verde-claro), var(--azul), var(--rojo));
+}
+
+.login-presentacion-contenido {
+    position: relative;
+    z-index: 1;
+    max-width: 700px;
+}
+
+.login-presentacion h1 {
+    margin-bottom: 1rem;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    line-height: 0.95;
+}
+
+.login-presentacion h1 span {
+    color: #9de8bd;
+}
+
+.login-presentacion>div>p {
+    max-width: 620px;
+    font-size: 1.18rem;
+}
+
+.beneficios-login {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.beneficios-login article {
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    border-radius: 14px;
+    backdrop-filter: blur(7px);
+}
+
+.beneficios-login strong,
+.beneficios-login span {
+    display: block;
+}
+
+.beneficios-login span {
+    margin-top: 0.25rem;
+    font-size: 0.83rem;
+    color: #e1eee7;
+}
+
+.login-formulario-contenedor {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 3rem clamp(1.5rem, 5vw, 5rem);
+}
+
+.login-marca {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin-bottom: 3rem;
+    color: var(--verde-oscuro);
+}
+
+.login-marca>span {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    font-size: 1.5rem;
+    background: var(--verde-muy-claro);
+    border-radius: 50%;
+}
+
+.login-marca strong,
+.login-marca small {
+    display: block;
+}
+
+.login-marca small {
+    color: var(--gris-texto);
+}
+
+.login-formulario {
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+}
+
+.login-formulario h2 {
+    font-size: 2.2rem;
+    color: var(--verde-oscuro);
+}
+
+.login-formulario>p {
+    margin-bottom: 1.5rem;
+    color: var(--gris-texto);
+}
+
+.login-formulario form {
+    display: grid;
+    gap: 1rem;
+}
+
+.fila-formulario {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    font-size: 0.9rem;
+}
+
+.casilla {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+}
+
+.casilla input {
+    accent-color: var(--verde-medio);
+}
+
+.texto-registro {
+    margin-top: 1.25rem;
+    text-align: center;
+}
+
+.credenciales-prueba {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    color: var(--gris-texto);
+    background: var(--gris-fondo);
+    border: 1px dashed #b8c5bd;
+    border-radius: 12px;
+    font-size: 0.82rem;
+}
+
+.credenciales-prueba strong {
+    color: var(--verde-oscuro);
+}
+
+.credenciales-prueba p {
+    margin-top: 0.25rem;
+    overflow-wrap: anywhere;
+}
+
+/* ----------------------------------------------------------
+    ENCABEZADO Y NAVEGACIÓN
+   ---------------------------------------------------------- */
+.encabezado-principal {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.2rem;
+    min-height: 78px;
+    padding: 0.75rem max(1.2rem, calc((100% - 1400px) / 2));
+    background: rgba(255, 255, 255, 0.97);
+    border-bottom: 1px solid var(--gris-claro);
+    box-shadow: 0 4px 18px rgba(11, 61, 46, 0.07);
+}
+
+.marca {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    color: var(--verde-oscuro);
+}
+
+.marca:hover {
+    color: var(--verde-medio);
+}
+
+.marca-icono {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    background: var(--verde-muy-claro);
+    border-radius: 50%;
+}
+
+.marca strong,
+.marca small {
+    display: block;
+}
+
+.marca small {
+    color: var(--gris-texto);
+    font-size: 0.72rem;
+}
+
+.menu-principal {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+}
+
+.menu-principal a {
+    color: var(--texto);
+    font-size: 0.92rem;
+    font-weight: 650;
+}
+
+.menu-principal a:hover {
+    color: var(--verde-medio);
+}
+
+.sesion-usuario {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-size: 0.82rem;
+}
+
+.boton-menu {
+    display: none;
+    color: var(--verde-oscuro);
+    background: transparent;
+    border: 0;
+    font-size: 1.7rem;
+}
+
+/* ----------------------------------------------------------
+    CARRUSEL
+   ---------------------------------------------------------- */
+.carrusel {
+    position: relative;
+    height: min(72vh, 680px);
+    min-height: 520px;
+    overflow: hidden;
+    background: var(--verde-oscuro);
+}
+
+.diapositiva {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.7s ease, visibility 0.7s ease;
+}
+
+.diapositiva.activa {
+    opacity: 1;
+    visibility: visible;
+}
+
+.diapositiva img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.capa-carrusel {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(4, 35, 25, 0.92) 0%, rgba(4, 35, 25, 0.64) 45%, rgba(4, 35, 25, 0.08) 100%);
+}
+
+.contenido-carrusel {
+    position: absolute;
+    top: 50%;
+    left: max(1.4rem, calc((100% - 1200px) / 2 + 1.4rem));
+    z-index: 2;
+    width: min(650px, calc(100% - 7rem));
+    color: var(--blanco);
+    transform: translateY(-50%);
+}
+
+.contenido-carrusel h1,
+.contenido-carrusel h2 {
+    max-width: 620px;
+    margin-bottom: 1rem;
+    font-size: clamp(2.5rem, 5vw, 4.9rem);
+    line-height: 1.02;
+}
+
+.contenido-carrusel p {
+    max-width: 580px;
+    margin-bottom: 1.6rem;
+    font-size: 1.08rem;
+    color: #e7f4ed;
+}
+
+.control-carrusel {
+    position: absolute;
+    top: 50%;
+    z-index: 5;
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    color: var(--blanco);
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 50%;
+    font-size: 2rem;
+    transform: translateY(-50%);
+    backdrop-filter: blur(6px);
+}
+
+.control-carrusel:hover {
+    background: rgba(255, 255, 255, 0.28);
+}
+
+.control-carrusel.anterior {
+    left: 1.3rem;
+}
+
+.control-carrusel.siguiente {
+    right: 1.3rem;
+}
+
+.indicadores-carrusel {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 50%;
+    z-index: 5;
+    display: flex;
+    gap: 0.5rem;
+    transform: translateX(-50%);
+}
+
+.indicador {
+    width: 10px;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.55);
+    border: 0;
+    border-radius: 50%;
+    transition: width var(--transicion), background var(--transicion);
+}
+
+.indicador.activo {
+    width: 30px;
+    background: var(--blanco);
+    border-radius: 10px;
+}
+
+/* ----------------------------------------------------------
+    BUSCADOR
+   ---------------------------------------------------------- */
+.panel-busqueda {
+    position: relative;
+    z-index: 10;
+    max-width: 1160px;
+    margin: -58px auto 0;
+    padding: 1.8rem;
+    background: var(--blanco);
+    border-radius: var(--radio);
+    box-shadow: var(--sombra);
+}
+
+.formulario-busqueda {
+    display: grid;
+    grid-template-columns: 1.5fr repeat(3, 1fr) auto;
+    align-items: end;
+    gap: 0.9rem;
+}
+
+.formulario-busqueda .boton {
+    min-height: 47px;
+}
+
+/* ----------------------------------------------------------
+    TARJETAS Y SECCIONES
+   ---------------------------------------------------------- */
+.rejilla-tarjetas,
+.rejilla-hoteles {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.4rem;
+}
+
+.tarjeta-destino,
+.tarjeta-hotel {
+    overflow: hidden;
+    background: var(--blanco);
+    border: 1px solid var(--gris-claro);
+    border-radius: var(--radio);
+    box-shadow: 0 8px 22px rgba(11, 61, 46, 0.07);
+    transition: transform var(--transicion), box-shadow var(--transicion);
+}
+
+.tarjeta-destino:hover,
+.tarjeta-hotel:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--sombra);
+}
+
+.tarjeta-destino>img {
+    width: 100%;
+    height: 230px;
+    object-fit: cover;
+}
+
+.contenido-tarjeta {
+    padding: 1.25rem;
+}
+
+.contenido-tarjeta h3 {
+    margin: 0.35rem 0 0.55rem;
+    color: var(--verde-oscuro);
+    font-size: 1.3rem;
+}
+
+.contenido-tarjeta p {
+    color: var(--gris-texto);
+}
+
+.ubicacion {
+    color: var(--azul-oscuro);
+    font-size: 0.82rem;
+    font-weight: 750;
+}
+
+.pie-tarjeta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--gris-claro);
+}
+
+.pie-tarjeta strong {
+    color: var(--verde-medio);
+}
+
+.pie-tarjeta a {
+    font-weight: 700;
+}
+
+.imagen-hotel {
+    position: relative;
+    height: 210px;
+    background-position: center;
+    background-size: cover;
+}
+
+.imagen-hotel span {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.35rem 0.65rem;
+    color: var(--verde-oscuro);
+    background: var(--blanco);
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 800;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.16);
+}
+
+.hotel-arenal {
+    background-image: linear-gradient(rgba(11, 61, 46, 0.08), rgba(11, 61, 46, 0.18)), url("../img/hotel-arenal.jpg");
+}
+
+.hotel-monteverde {
+    background-image: linear-gradient(rgba(11, 61, 46, 0.08), rgba(11, 61, 46, 0.18)), url("../img/hotel-monteverde.jpg");
+}
+
+.hotel-pacifico {
+    background-image: linear-gradient(rgba(11, 61, 46, 0.08), rgba(11, 61, 46, 0.18)), url("../img/hotel-manuelantonio.jpg");
+}
+
+.contenido-tarjeta strong small {
+    color: var(--gris-texto);
+    font-weight: 500;
+}
+
+.rejilla-actividades {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+}
+
+.tarjeta-actividad {
+    padding: 1.6rem;
+    background: var(--blanco);
+    border: 1px solid var(--gris-claro);
+    border-radius: var(--radio);
+    transition: transform var(--transicion), border-color var(--transicion);
+}
+
+.tarjeta-actividad:hover {
+    transform: translateY(-4px);
+    border-color: var(--verde-claro);
+}
+
+.tarjeta-actividad>span {
+    display: grid;
+    place-items: center;
+    width: 54px;
+    height: 54px;
+    margin-bottom: 1rem;
+    background: var(--verde-muy-claro);
+    border-radius: 15px;
+    font-size: 1.7rem;
+}
+
+.tarjeta-actividad h3 {
+    color: var(--verde-oscuro);
+}
+
+.tarjeta-actividad p {
+    margin-top: 0.35rem;
+    color: var(--gris-texto);
+    font-size: 0.92rem;
+}
+
+.banda-informativa {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    max-width: 1160px;
+    margin-bottom: 4rem;
+    padding: 2.7rem;
+    color: var(--blanco);
+    background: linear-gradient(120deg, var(--verde-oscuro), var(--azul-oscuro));
+    border-radius: var(--radio);
+    box-shadow: var(--sombra);
+}
+
+.banda-informativa h2 {
+    margin-bottom: 0.6rem;
+    font-size: clamp(1.7rem, 3vw, 2.5rem);
+    line-height: 1.2;
+}
+
+.banda-informativa p {
+    max-width: 760px;
+    color: #dfede6;
+}
+
+.rejilla-modulos {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.rejilla-modulos article {
+    padding: 1.4rem;
+    background: var(--blanco);
+    border-left: 5px solid var(--verde-claro);
+    border-radius: 12px;
+    box-shadow: 0 6px 16px rgba(11, 61, 46, 0.06);
+}
+
+.rejilla-modulos article:nth-child(2n) {
+    border-left-color: var(--azul);
+}
+
+.rejilla-modulos article:nth-child(3n) {
+    border-left-color: var(--rojo);
+}
+
+.rejilla-modulos span {
+    font-size: 1.5rem;
+}
+
+.rejilla-modulos h3 {
+    margin-top: 0.5rem;
+    color: var(--verde-oscuro);
+}
+
+.rejilla-modulos p {
+    color: var(--gris-texto);
+    font-size: 0.9rem;
+}
+
+/* ----------------------------------------------------------
+    FORMULARIOS SECUNDARIOS
+   ---------------------------------------------------------- */
+.pagina-secundaria {
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+    background:
+        radial-gradient(circle at top right, rgba(116, 198, 157, 0.3), transparent 35%),
+        linear-gradient(135deg, #f7fbf8, #edf5f8);
+}
+
+.tarjeta-formulario-secundario {
+    width: min(100%, 620px);
+    padding: clamp(1.5rem, 5vw, 3rem);
+    background: var(--blanco);
+    border-top: 7px solid var(--verde-oscuro);
+    border-radius: var(--radio);
+    box-shadow: var(--sombra);
+}
+
+.tarjeta-formulario-secundario h1 {
+    margin-bottom: 0.5rem;
+    color: var(--verde-oscuro);
+    font-size: 2.2rem;
+}
+
+.tarjeta-formulario-secundario>p {
+    margin-bottom: 1.6rem;
+    color: var(--gris-texto);
+}
+
+.formulario-secundario {
+    display: grid;
+    gap: 1rem;
+}
+
+.volver {
+    display: inline-block;
+    margin-bottom: 1.8rem;
+    font-weight: 700;
+}
+
+.centrado {
+    text-align: center;
+}
+
+.icono-grande {
+    margin-bottom: 0.5rem;
+    font-size: 4rem;
+}
+
+/* ----------------------------------------------------------
+    PIE DE PÁGINA
+   ---------------------------------------------------------- */
+.pie-pagina {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: 2.5rem max(1.4rem, calc((100% - 1200px) / 2 + 1.4rem));
+    color: #d7e5dd;
+    background: var(--verde-oscuro);
+}
+
+.pie-pagina strong {
+    color: var(--blanco);
+    font-size: 1.15rem;
+}
+
+.pie-pagina p {
+    font-size: 0.86rem;
+}
+
+/* ----------------------------------------------------------
+    DISEÑO RESPONSIVE
+    Se reorganizan elementos para tabletas y teléfonos.
+   ---------------------------------------------------------- */
+@media (max-width: 1080px) {
+    .login-contenedor {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .login-presentacion {
+        padding: 2.5rem;
+    }
+
+    .beneficios-login {
+        grid-template-columns: 1fr;
+    }
+
+    .menu-principal {
+        display: none;
+        position: absolute;
+        top: 78px;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 1rem 1.4rem;
+        background: var(--blanco);
+        border-bottom: 1px solid var(--gris-claro);
+        box-shadow: var(--sombra);
+    }
+
+    .menu-principal.abierto {
+        display: flex;
+    }
+
+    .boton-menu {
+        display: block;
+        order: 2;
+    }
+
+    .sesion-usuario {
+        margin-left: auto;
+        order: 1;
+    }
+
+    .formulario-busqueda {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .formulario-busqueda .boton {
+        grid-column: span 2;
+    }
+
+    .rejilla-tarjetas,
+    .rejilla-hoteles {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .rejilla-actividades {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 760px) {
+    .login-contenedor {
+        display: block;
+    }
+
+    .login-presentacion {
+        min-height: 420px;
+        padding: 2rem 1.4rem;
+    }
+
+    .login-presentacion::after {
+        top: auto;
+        bottom: 0;
+        width: 100%;
+        height: 7px;
+    }
+
+    .login-presentacion h1 {
+        font-size: 3.2rem;
+    }
+
+    .beneficios-login {
+        display: none;
+    }
+
+    .login-formulario-contenedor {
+        padding: 2.5rem 1.4rem;
+    }
+
+    .login-marca {
+        margin-bottom: 2rem;
+    }
+
+    .encabezado-principal {
+        flex-wrap: wrap;
+    }
+
+    .marca small,
+    .sesion-usuario span {
+        display: none;
+    }
+
+    .carrusel {
+        min-height: 560px;
+    }
+
+    .capa-carrusel {
+        background: linear-gradient(180deg, rgba(4, 35, 25, 0.25), rgba(4, 35, 25, 0.92));
+    }
+
+    .contenido-carrusel {
+        top: auto;
+        bottom: 5rem;
+        left: 1.4rem;
+        width: calc(100% - 2.8rem);
+        transform: none;
+    }
+
+    .contenido-carrusel h1,
+    .contenido-carrusel h2 {
+        font-size: 2.6rem;
+    }
+
+    .control-carrusel {
+        top: auto;
+        bottom: 1.1rem;
+        transform: none;
+    }
+
+    .indicadores-carrusel {
+        bottom: 2rem;
+    }
+
+    .panel-busqueda {
+        margin: 1rem;
+        padding: 1.3rem;
+    }
+
+    .encabezado-seccion,
+    .encabezado-seccion.compacto {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 0.7rem;
+    }
+
+    .formulario-busqueda,
+    .rejilla-tarjetas,
+    .rejilla-hoteles,
+    .rejilla-actividades,
+    .rejilla-modulos {
+        grid-template-columns: 1fr;
+    }
+
+    .formulario-busqueda .boton {
+        grid-column: auto;
+    }
+
+    .banda-informativa,
+    .pie-pagina {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .banda-informativa {
+        margin-left: 1rem;
+        margin-right: 1rem;
+        padding: 2rem 1.4rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .fila-formulario {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .sesion-usuario .boton {
+        padding: 0.6rem 0.75rem;
+        font-size: 0.78rem;
+    }
+
+    .marca strong {
+        font-size: 0.88rem;
+    }
+
+    .contenido-carrusel h1,
+    .contenido-carrusel h2 {
+        font-size: 2.2rem;
+    }
+}
