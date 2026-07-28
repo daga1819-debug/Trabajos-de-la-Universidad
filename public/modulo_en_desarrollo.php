@@ -13,7 +13,7 @@ session_start();
 <body class="pagina-secundaria">
     <main class="tarjeta-formulario-secundario centrado">
         <div class="icono-grande">🚧</div>
-        <span class="etiqueta">Primera avance</span>
+        <span class="etiqueta">Segundo avance</span>
         <h1>Módulo en desarrollo</h1>
         <p>
             Esta pantalla tendrá una funcionalidad en futuras etapas del proyecto.

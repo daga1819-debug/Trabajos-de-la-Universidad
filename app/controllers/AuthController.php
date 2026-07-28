@@ -3,11 +3,14 @@
 require_once __DIR__ . '/../models/Usuario.php';
 
 /*
-    Controlador encargado de la autenticación.
-    Recibe los datos del formulario, valida la información, consulta el modelo temporal Usuario y crea la sesión cuando las credenciales son correctas.
+    Controlador encargado de la autenticación, recibe los datos del formulario, los valida,
+    consulta el modelo Usuario y administra la sesión
  */
 class AuthController
 {
+    /*
+        Procesa el formulario de inicio de sesión
+     */
     public static function iniciarSesion(): void
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -15,67 +18,131 @@ class AuthController
             exit;
         }
 
-        // Recibimos y limpiamos el correo electrónico.
-        $correo = filter_input(INPUT_POST, 'correo', FILTER_SANITIZE_EMAIL);
-        $correo = trim((string) $correo);
+        // Recibimos y limpiamos el correo
 
-        // La contraseña no se transforma para no alterar caracteres válidos.
-        $contrasena = trim((string) ($_POST['contrasena'] ?? ''));
+        $correo = filter_input(
+            INPUT_POST,
+            'correo',
+            FILTER_SANITIZE_EMAIL
+        );
 
-        // Validación del token CSRF para evitar envíos desde formularios externos.
+        $correo = strtolower(trim((string) $correo));
+
+        $contrasena = (string) ($_POST['contrasena'] ?? '');
+
+
+        // Validación del token CSRF
+
         $tokenFormulario = (string) ($_POST['csrf_token'] ?? '');
         $tokenSesion = (string) ($_SESSION['csrf_token'] ?? '');
 
-        if ($tokenSesion === '' || !hash_equals($tokenSesion, $tokenFormulario)) {
-            $_SESSION['error'] = 'La solicitud no es válida. Intente nuevamente.';
-            header('Location: index.php');
-            exit;
+        if (
+            $tokenSesion === ''
+            || $tokenFormulario === ''
+            || !hash_equals($tokenSesion, $tokenFormulario)
+        ) {
+            self::guardarError(
+                'La solicitud no es válida. Intente nuevamente.'
+            );
         }
 
+        // Validaciones del lado del servidor
+
         if ($correo === '' || $contrasena === '') {
-            $_SESSION['error'] = 'Debe completar el correo y la contraseña.';
-            header('Location: index.php');
-            exit;
+            self::guardarError(
+                'Debe completar el correo y la contraseña.',
+                $correo
+            );
         }
 
         if (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
-            $_SESSION['error'] = 'El correo electrónico no tiene un formato válido.';
-            header('Location: index.php');
-            exit;
+            self::guardarError(
+                'El correo electrónico no tiene un formato válido.',
+                $correo
+            );
         }
 
-        if (strlen($contrasena) < 6 || strlen($contrasena) > 50) {
-            $_SESSION['error'] = 'La contraseña debe tener entre 6 y 50 caracteres.';
-            header('Location: index.php');
-            exit;
+        if (
+            strlen($contrasena) < 6
+            || strlen($contrasena) > 72
+        ) {
+            self::guardarError(
+                'La contraseña debe tener entre 6 y 72 caracteres.',
+                $correo
+            );
         }
 
-        $usuario = Usuario::autenticar($correo, $contrasena);
+        try {
+
+            // El modelo consulta MySQL y verifica el hash
+
+            $usuario = Usuario::autenticar(
+                $correo,
+                $contrasena
+            );
+        } catch (RuntimeException $excepcion) {
+
+            // El mensaje técnico fue registrado en errores.log y se muestra un mensaje genérico al usuario
+
+            self::guardarError(
+                'No fue posible procesar el inicio de sesión. '
+                    . 'Intente nuevamente.',
+                $correo
+            );
+        }
 
         if ($usuario === null) {
-            $_SESSION['error'] = 'El correo o la contraseña son incorrectos.';
-            $_SESSION['correo_anterior'] = $correo;
-            header('Location: index.php');
-            exit;
+            self::guardarError(
+                'El correo o la contraseña son incorrectos.',
+                $correo
+            );
         }
 
-        // Regenerar el identificador de sesión reduce el riesgo de fijación de sesión.
+        // Se cambia el identificador de sesión después de autenticar correctamente al usuario
+
         session_regenerate_id(true);
 
+        // Solo se almacenan los datos necesarios
+
         $_SESSION['usuario'] = [
+            'id_usuario' => (int) $usuario['id_usuario'],
             'nombre' => $usuario['nombre'],
             'correo' => $usuario['correo'],
             'rol' => $usuario['rol'],
         ];
 
-        unset($_SESSION['error'], $_SESSION['correo_anterior']);
+        // Se crea un nuevo token para futuras solicitudes
+
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+
+        unset(
+            $_SESSION['error'],
+            $_SESSION['correo_anterior']
+        );
 
         header('Location: principal.php');
         exit;
     }
-    /*
-        Cierra la sesión del usuario y redirige al inicio de sesión.
-     */
+
+
+    // Guarda un mensaje de error y regresa al formulario
+
+    private static function guardarError(
+        string $mensaje,
+        string $correo = ''
+    ): never {
+        $_SESSION['error'] = $mensaje;
+
+        if ($correo !== '') {
+            $_SESSION['correo_anterior'] = $correo;
+        }
+
+        header('Location: index.php');
+        exit;
+    }
+
+    // Cierra completamente la sesión
+
     public static function cerrarSesion(): void
     {
         $_SESSION = [];
@@ -95,6 +162,7 @@ class AuthController
         }
 
         session_destroy();
+
         header('Location: index.php');
         exit;
     }

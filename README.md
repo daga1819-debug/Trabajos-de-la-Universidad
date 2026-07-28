@@ -11,7 +11,7 @@ Primer avance del proyecto programado del curso **Programación IV**.
 - Sesiones de PHP
 - Estructura inicial inspirada en MVC
 
-Aún no se implemento MySQL
+En esta etapa el proyecto aun no contaba con mysql y la autenticación utilizaba usuarios simulados.
 
 ## Funcionalidades incluidas
 
@@ -69,3 +69,39 @@ Aún no se implemento MySQL
 - Favoritos, calificaciones y comentarios.
 - Validaciones completas en cliente y servidor.
 - Manejo de archivos e imágenes.
+
+## ---------------------------------------------------------------------------------------------------------------------------------------- ##
+
+Segundo avance del proyecto programado del curso **Programación IV**.
+
+## Estado actual del proyecto
+
+En este avance, la conexión con MySQL se utiliza para el módulo de autenticación de usuarios. La página principal conserva temporalmente datos estáticos con fines de prototipo visual.
+
+La base de datos ya contiene los registros iniciales de destinos, hoteles y actividades que serán consultados dinámicamente en las próximas etapas, cuando se implementen los modelos, controladores y operaciones CRUD correspondientes.
+
+## Funcionalidades implementadas
+
+- Formulario de inicio de sesión.
+- Recepción de credenciales mediante POST.
+- Conexión a MySQL utilizando PDO.
+- Consultas preparadas para prevenir inyección SQL.
+- Contraseñas almacenadas mediante password_hash().
+- Verificación de contraseñas mediante password_verify().
+- Validaciones del lado del servidor.
+- Protección CSRF.
+- Manejo y protección de sesiones.
+- Cierre de sesión.
+- Página principal con el boceto visual del sistema completo.
+- Modelo inicial de base de datos para usuarios, destinos, hoteles, actividades y reservaciones.
+
+## Funcionalidades pendientes
+
+- Registro funcional de nuevos usuarios.
+- Recuperación y cambio de contraseña.
+- CRUD de destinos.
+- CRUD de hoteles.
+- CRUD de actividades.
+- Gestión de reservaciones.
+- Reportes y estadísticas.
+- Consumo de APIs.

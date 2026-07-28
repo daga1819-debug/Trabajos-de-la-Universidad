@@ -1,46 +1,133 @@
 <?php
 
+require_once __DIR__ . '/../../config/database.php';
+
 /*
-    Modelo temporal de usuario queontiene datos simulados para demostrar la autenticación.
+    Esta clase representa el acceso a la tabla usuarios
  */
 class Usuario
 {
-    /*
-        Devuelve un arreglo con usuarios de prueba.
-        Cunado este completo, los usuarios se almacenarán en MySQL y se consultarán mediante PDO.
-     */
-    public static function obtenerUsuariosPrueba(): array
+
+    // Busca un usuario mediante su correo electrónico
+
+    public static function buscarPorCorreo(string $correo): ?array
     {
-        return [
-            [
-                'nombre' => 'Administrador del sistema',
-                'correo' => 'admin@viajarespuravida.cr',
-                'contrasena' => 'Admin123',
-                'rol' => 'administrador',
-            ],
-            [
-                'nombre' => 'Cliente de prueba',
-                'correo' => 'cliente@viajarespuravida.cr',
-                'contrasena' => 'Cliente123',
-                'rol' => 'cliente',
-            ],
-        ];
+        $conexion = Database::conectar();
+
+        /*
+        El marcador :correo evita concatenar directamente información ingresada por el usuario
+        Esto protege contra inyección SQL
+         */
+        $sql = '
+            SELECT
+                id_usuario,
+                nombre,
+                correo,
+                telefono,
+                fotografia,
+                contrasena,
+                rol,
+                estado,
+                fecha_registro
+            FROM usuarios
+            WHERE correo = :correo
+            LIMIT 1
+        ';
+
+        $consulta = $conexion->prepare($sql);
+
+        $consulta->execute([
+            'correo' => strtolower(trim($correo)),
+        ]);
+        // fetch() devuelve false cuando no encuentra registros.
+        $usuario = $consulta->fetch();
+
+        return $usuario !== false ? $usuario : null;
     }
 
     /*
-        Busca un usuario por correo y contraseña.
+        Verifica el correo y la contraseña de un usuario.
      */
-    public static function autenticar(string $correo, string $contrasena): ?array
-    {
-        foreach (self::obtenerUsuariosPrueba() as $usuario) {
-            if (
-                strtolower($usuario['correo']) === strtolower($correo)
-                && $usuario['contrasena'] === $contrasena
-            ) {
-                return $usuario;
-            }
+    public static function autenticar(
+        string $correo,
+        string $contrasena
+    ): ?array {
+        $usuario = self::buscarPorCorreo($correo);
+
+
+        // Se devuelve null cuando el correo no existe, el usuario está inactivo o la contraseña es incorrecta.
+
+        if ($usuario === null) {
+            return null;
         }
 
-        return null;
+        if ($usuario['estado'] !== 'activo') {
+            return null;
+        }
+
+        if (!password_verify($contrasena, $usuario['contrasena'])) {
+            return null;
+        }
+
+        // La contraseña nunca debe almacenarse en la sesión ni enviarse a una vista.
+
+        unset($usuario['contrasena']);
+
+        return $usuario;
+    }
+
+    /*
+        Registra un nuevo usuario cliente
+     */
+    public static function crear(
+        string $nombre,
+        string $correo,
+        string $telefono,
+        string $contrasena
+    ): bool {
+        $conexion = Database::conectar();
+
+        $sql = '
+            INSERT INTO usuarios (
+                nombre,
+                correo,
+                telefono,
+                contrasena,
+                rol,
+                estado
+            ) VALUES (
+                :nombre,
+                :correo,
+                :telefono,
+                :contrasena,
+                :rol,
+                :estado
+            )
+        ';
+
+        $consulta = $conexion->prepare($sql);
+
+        /*
+            Password_hash() transforma la contraseña en un hash seguro antes de guardarla.
+         */
+        $hash = password_hash(
+            $contrasena,
+            PASSWORD_DEFAULT
+        );
+
+        return $consulta->execute([
+            'nombre' => trim($nombre),
+            'correo' => strtolower(trim($correo)),
+            'telefono' => trim($telefono),
+            'contrasena' => $hash,
+            'rol' => 'cliente',
+            'estado' => 'activo',
+        ]);
+    }
+
+    //  Verifica si ya existe un correo registrado.
+    public static function existeCorreo(string $correo): bool
+    {
+        return self::buscarPorCorreo($correo) !== null;
     }
 }
