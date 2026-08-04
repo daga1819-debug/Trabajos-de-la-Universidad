@@ -1,0 +1,245 @@
+/* Hace que el ancho de cada elemento incluya bordes y rellenos */
+* {
+    box-sizing: border-box;
+}
+
+/* Estilo general y fondo oscuro del panel */
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #0c1118;
+    color: #e9eef5;
+}
+
+/* Encabezado flexible con el título y el estado del sistema */
+.encabezado {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 24px 5%;
+    background: #151d29;
+    border-bottom: 1px solid #2d3949;
+}
+
+.encabezado h1 {
+    margin: 0 0 6px;
+    font-size: 2rem;
+}
+
+.encabezado p {
+    margin: 0;
+    color: #aab7c7;
+}
+
+/* Indicador visual de que la plataforma está activa */
+.estado-sistema {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #bde8c5;
+}
+
+.punto-activo {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #39d353;
+    box-shadow: 0 0 12px #39d353;
+}
+
+/* Limita el ancho del contenido y lo centra */
+.contenedor {
+    width: min(1200px, 92%);
+    margin: 28px auto;
+}
+
+/* Distribuye los botones, el filtro y el contador */
+.acciones {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 22px;
+}
+
+.boton,
+.boton-marcar,
+select {
+    border: 0;
+    border-radius: 8px;
+    padding: 11px 16px;
+    font-size: 0.95rem;
+}
+
+.boton,
+.boton-marcar {
+    cursor: pointer;
+}
+
+/* Comunica visualmente que una acción está temporalmente bloqueada */
+.boton:disabled,
+.boton-marcar:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.boton-principal {
+    background: #2f81f7;
+    color: white;
+}
+
+.boton-secundario {
+    background: #30363d;
+    color: white;
+}
+
+.boton-marcar {
+    background: #2a3442;
+    color: #e9eef5;
+    padding: 8px 10px;
+}
+
+select {
+    background: #e9eef5;
+    color: #111827;
+}
+
+.contador {
+    margin-left: auto;
+    color: #aab7c7;
+}
+
+/* Cada panel agrupa información relacionada */
+.panel {
+    background: #151d29;
+    border: 1px solid #2d3949;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 24px;
+}
+
+.panel-titulo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.panel-titulo h2 {
+    margin: 0;
+}
+
+#mensajeEstado {
+    color: #8bd5ff;
+}
+
+.error {
+    color: #ff7b72 !important;
+}
+
+/* Permite desplazar la tabla horizontalmente en pantallas pequeñas */
+.tabla-contenedor {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 850px;
+}
+
+th,
+td {
+    padding: 13px 12px;
+    text-align: left;
+    border-bottom: 1px solid #2d3949;
+}
+
+th {
+    color: #9fb0c3;
+    font-size: 0.86rem;
+    text-transform: uppercase;
+}
+
+tr:hover {
+    background: #1c2633;
+}
+
+/* Las filas peligrosas se resaltan en rojo */
+.archivo-peligroso {
+    background: #3a171b;
+    border-left: 5px solid #ff4d4f;
+}
+
+.archivo-peligroso:hover {
+    background: #492025;
+}
+
+/* Etiquetas visuales para distinguir el estado del archivo */
+.etiqueta {
+    display: inline-block;
+    padding: 5px 9px;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: bold;
+}
+
+.etiqueta-normal {
+    background: #173523;
+    color: #76db8c;
+}
+
+.etiqueta-peligro {
+    background: #5b1d24;
+    color: #ff9d9f;
+}
+
+/* Los reportes externos se organizan automáticamente en columnas */
+.reportes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 16px;
+}
+
+.reporte {
+    background: #0f1620;
+    border: 1px solid #2d3949;
+    border-radius: 10px;
+    padding: 16px;
+}
+
+.reporte span {
+    color: #7db8ff;
+    font-size: 0.85rem;
+}
+
+.reporte h3 {
+    margin: 10px 0;
+    text-transform: capitalize;
+}
+
+.reporte p {
+    color: #b8c4d1;
+    line-height: 1.5;
+}
+
+/* Esta clase oculta la sección de reportes hasta que sea solicitada */
+.oculto,
+[hidden] {
+    display: none !important;
+}
+
+/* Ajustes responsivos para teléfonos y ventanas estrechas */
+@media (max-width: 700px) {
+    .encabezado {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .contador {
+        width: 100%;
+        margin-left: 0;
+    }
+}
