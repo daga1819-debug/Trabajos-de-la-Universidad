@@ -1,38 +1,23 @@
 # Viajar es Pura Vida
 
-Primer avance del proyecto programado del curso **Programación IV**.
+Proyecto académico de Programación IV desarrollado con PHP, MySQL, PDO, HTML, CSS y JavaScript. El sistema permite consultar destinos turísticos de Costa Rica, administrar hoteles y actividades, registrar usuarios, crear reservaciones, guardar favoritos, publicar comentarios y generar reportes.
 
-## Tecnologías utilizadas
+## Requisitos
 
-- HTML5
-- PHP
-- CSS3
-- JavaScript básico
-- Sesiones de PHP
-- Estructura inicial inspirada en MVC
+- PHP 8.1 o superior.
+- MySQL o MariaDB compatible con las restricciones utilizadas en el script SQL.
+- Extensiones PHP `pdo_mysql` y `fileinfo` habilitadas.
+- Apache/XAMPP para el entorno local recomendado.
+- Conexión a Internet únicamente para el clima de Open-Meteo y los mapas de Leaflet/OpenStreetMap.
 
-En esta etapa el proyecto aun no contaba con mysql y la autenticación utilizaba usuarios simulados.
+## Instalación
 
-## Funcionalidades incluidas
+1. Copiar la carpeta `Viajar_es_Pura_Vida` dentro de `C:\xampp\htdocs`.
+2. Iniciar Apache y MySQL desde XAMPP.
+3. Abrir phpMyAdmin e importar `database/viajar_es_pura_vida.sql`.
+4. Verificar que `config/database.php` coincida con la configuración local de MySQL. Por defecto se utiliza `127.0.0.1`, usuario `root`, contraseña vacía y el puerto predeterminado de MySQL.
+5. Abrir `http://localhost/Viajar_es_Pura_Vida/public/`.
 
-- Formulario de inicio de sesión.
-- Envío de credenciales mediante `POST`.
-- Validación de datos en PHP.
-- Sanitización del correo electrónico.
-- Token CSRF para proteger el formulario.
-- Autenticación temporal con usuarios simulados.
-- Creación, protección y cierre de sesión.
-- Página principal con:
-  - Carrusel de destinos.
-  - Buscador visual.
-  - Destinos destacados.
-  - Hoteles recomendados.
-  - Actividades turísticas.
-  - Boceto de reservaciones.
-  - Vista de módulos futuros.
-- Formulario visual de registro.
-- Formulario visual de recuperación de contraseña.
-- Diseño adaptable a computadora, tableta y teléfono.
 
 ## Credenciales de prueba
 
@@ -46,62 +31,34 @@ En esta etapa el proyecto aun no contaba con mysql y la autenticación utilizaba
 - Correo: `cliente@viajarespuravida.cr`
 - Contraseña: `Cliente123`
 
-## Cómo ejecutar el proyecto con XAMPP
+Las contraseñas no se guardan en texto plano. El SQL contiene únicamente hashes compatibles con `password_verify()`.
 
-1. Descomprima la carpeta `viajar-es-pura-vida`.
-2. Copie la carpeta completa dentro de `C:\xampp\htdocs\`.
-3. Inicie Apache desde el panel de XAMPP.
-4. Abra el navegador.
-5. Ingrese a:
+## Funcionalidades principales
 
-   `http://localhost/viajar-es-pura-vida/public/`
+- Inicio y cierre de sesión con roles de administrador y cliente.
+- Registro de clientes con validaciones del lado del servidor.
+- Recuperación simulada de contraseña mediante token temporal.
+- CRUD y búsqueda de destinos, hoteles y actividades.
+- Carga de imágenes desde los formularios administrativos.
+- Reservaciones de hotel con actividad opcional, cálculo de noches, habitaciones, personas y totales.
+- Historial de reservaciones y cambio de estado por parte del administrador.
+- Perfil con actualización de datos, fotografía y contraseña.
+- Favoritos, comentarios y calificaciones.
+- Administración del estado y rol de los usuarios.
+- Seis reportes: reservaciones por destino, hoteles más reservados, actividades más solicitadas, usuarios registrados, reservaciones por fecha e ingresos.
+- Bitácora de operaciones administrativas y reservaciones.
+- Clima actual mediante Open-Meteo.
+- Mapas mediante Leaflet y OpenStreetMap.
+- Buscador del catálogo principal.
 
+## Seguridad aplicada
 
-## Mejoras previstas para siguientes entregas
-
-- Conexión MySQL mediante PDO.
-- Contraseñas con `password_hash()` y `password_verify()`.
-- CRUD de usuarios, destinos, hoteles, actividades y reservaciones.
-- Roles y autorización de administrador/cliente.
-- Integración con API del clima.
-- Integración con API de tipo de cambio o mapas.
-- Reportes y estadísticas.
-- Favoritos, calificaciones y comentarios.
-- Validaciones completas en cliente y servidor.
-- Manejo de archivos e imágenes.
-
-## ---------------------------------------------------------------------------------------------------------------------------------------- ##
-
-Segundo avance del proyecto programado del curso **Programación IV**.
-
-## Estado actual del proyecto
-
-En este avance, la conexión con MySQL se utiliza para el módulo de autenticación de usuarios. La página principal conserva temporalmente datos estáticos con fines de prototipo visual.
-
-La base de datos ya contiene los registros iniciales de destinos, hoteles y actividades que serán consultados dinámicamente en las próximas etapas, cuando se implementen los modelos, controladores y operaciones CRUD correspondientes.
-
-## Funcionalidades implementadas
-
-- Formulario de inicio de sesión.
-- Recepción de credenciales mediante POST.
-- Conexión a MySQL utilizando PDO.
-- Consultas preparadas para prevenir inyección SQL.
-- Contraseñas almacenadas mediante password_hash().
-- Verificación de contraseñas mediante password_verify().
-- Validaciones del lado del servidor.
-- Protección CSRF.
-- Manejo y protección de sesiones.
-- Cierre de sesión.
-- Página principal con el boceto visual del sistema completo.
-- Modelo inicial de base de datos para usuarios, destinos, hoteles, actividades y reservaciones.
-
-## Funcionalidades pendientes
-
-- Registro funcional de nuevos usuarios.
-- Recuperación y cambio de contraseña.
-- CRUD de destinos.
-- CRUD de hoteles.
-- CRUD de actividades.
-- Gestión de reservaciones.
-- Reportes y estadísticas.
-- Consumo de APIs.
+- PDO con consultas preparadas reales.
+- `password_hash()` y `password_verify()` para contraseñas.
+- Tokens CSRF en formularios sensibles.
+- Regeneración del identificador de sesión al iniciar sesión.
+- Cookie de sesión `HttpOnly` y `SameSite=Lax`.
+- Validación de tipo MIME y tamaño de imágenes.
+- Escape de contenido HTML mediante la función auxiliar `e()`.
+- Validaciones de permisos para acciones administrativas.
+- Mensajes técnicos registrados en `storage/logs` sin mostrar detalles internos al usuario.

@@ -1,11 +1,4 @@
-/* ----------------------------------------------------------
-    CSS inspirado en los colores que representan la naturaleza de Costa Rica.
-   ---------------------------------------------------------- */
-
-
-/*
-    Colores que se utilizan en todo el sitio web. Se definen como variables CSS para facilitar su uso y mantenimiento.:
- */
+/* Configuración general */
 :root {
     --verde-oscuro: #0b3d2e;
     --verde-medio: #197149;
@@ -60,7 +53,8 @@ a:hover {
 
 button,
 input,
-select {
+select,
+textarea {
     font: inherit;
 }
 
@@ -69,15 +63,13 @@ a.boton {
     cursor: pointer;
 }
 
-/* Mejora la accesibilidad al navegar con teclado. */
+/* Mejora la navegación con teclado */
 :focus-visible {
     outline: 3px solid rgba(25, 118, 185, 0.4);
     outline-offset: 3px;
 }
 
-/* ----------------------------------------------------------
-    COMPONENTES REUTILIZABLES
-   ---------------------------------------------------------- */
+/* Botones y controles reutilizables */
 .boton {
     display: inline-flex;
     align-items: center;
@@ -162,6 +154,16 @@ a.boton {
     border-left: 4px solid var(--rojo);
 }
 
+.mensaje-exito {
+    padding: 14px 16px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    background-color: #e8f5e9;
+    border: 1px solid #4caf50;
+    color: #1b5e20;
+    font-size: 0.95rem;
+}
+
 .grupo-campo {
     display: flex;
     flex-direction: column;
@@ -214,11 +216,6 @@ a.boton {
     margin-bottom: 2rem;
 }
 
-.encabezado-seccion.compacto {
-    align-items: center;
-    margin-bottom: 1.5rem;
-}
-
 .encabezado-seccion h2 {
     color: var(--verde-oscuro);
     font-size: clamp(1.8rem, 3vw, 2.65rem);
@@ -236,9 +233,7 @@ a.boton {
     font-weight: 700;
 }
 
-/* ----------------------------------------------------------
-    INICIO DE SESIÓN
-   ---------------------------------------------------------- */
+/* Inicio de sesión */
 .pagina-login {
     background: var(--blanco);
 }
@@ -380,14 +375,118 @@ a.boton {
     font-size: 0.9rem;
 }
 
-.casilla {
-    display: flex;
-    align-items: center;
-    gap: 0.45rem;
+/* Registro y recuperación de contraseña */
+.contenedor-login {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    min-height: 100vh;
 }
 
-.casilla input {
-    accent-color: var(--verde-medio);
+.informacion-login {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: 100vh;
+    padding: 4rem;
+    color: var(--blanco);
+    background:
+        linear-gradient(180deg,
+            rgba(6, 40, 29, 0.18),
+            rgba(6, 40, 29, 0.92)),
+        url("../img/arenal.jpg") center / cover no-repeat;
+}
+
+.informacion-login::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 8px;
+    height: 100%;
+    background: linear-gradient(var(--verde-claro),
+            var(--azul),
+            var(--rojo));
+}
+
+.informacion-login h1,
+.informacion-login p {
+    position: relative;
+    z-index: 1;
+}
+
+.informacion-login h1 {
+    margin-bottom: 1rem;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    line-height: 0.95;
+}
+
+.informacion-login>p:last-child {
+    max-width: 620px;
+    font-size: 1.18rem;
+}
+
+.formulario-login {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 3rem clamp(1.5rem, 5vw, 5rem);
+}
+
+.formulario-login h2 {
+    font-size: 2.2rem;
+    color: var(--verde-oscuro);
+}
+
+.formulario-login>p {
+    margin-bottom: 1.5rem;
+    color: var(--gris-texto);
+}
+
+.formulario-login form {
+    display: grid;
+    gap: 1rem;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.42rem;
+}
+
+.campo label {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--verde-oscuro);
+}
+
+.campo input {
+    width: 100%;
+    min-height: 47px;
+    padding: 0.72rem 0.85rem;
+    color: var(--texto);
+    background: var(--blanco);
+    border: 1px solid #cbd5cf;
+    border-radius: 10px;
+    transition:
+        border-color var(--transicion),
+        box-shadow var(--transicion);
+}
+
+.campo input:focus {
+    border-color: var(--azul);
+    box-shadow: 0 0 0 4px rgba(25, 118, 185, 0.1);
+    outline: none;
+}
+
+.formulario-login .boton-principal {
+    width: 100%;
+    margin-top: 0.5rem;
+}
+
+.formulario-login .enlaces-login {
+    margin-top: 1.25rem;
+    text-align: center;
 }
 
 .texto-registro {
@@ -414,9 +513,7 @@ a.boton {
     overflow-wrap: anywhere;
 }
 
-/* ----------------------------------------------------------
-    ENCABEZADO Y NAVEGACIÓN
-   ---------------------------------------------------------- */
+/* Encabezado principal */
 .encabezado-principal {
     position: sticky;
     top: 0;
@@ -441,15 +538,6 @@ a.boton {
 
 .marca:hover {
     color: var(--verde-medio);
-}
-
-.marca-icono {
-    display: grid;
-    place-items: center;
-    width: 42px;
-    height: 42px;
-    background: var(--verde-muy-claro);
-    border-radius: 50%;
 }
 
 .marca strong,
@@ -493,9 +581,7 @@ a.boton {
     font-size: 1.7rem;
 }
 
-/* ----------------------------------------------------------
-    CARRUSEL
-   ---------------------------------------------------------- */
+/* Carrusel de destinos */
 .carrusel {
     position: relative;
     height: min(72vh, 680px);
@@ -608,9 +694,7 @@ a.boton {
     border-radius: 10px;
 }
 
-/* ----------------------------------------------------------
-    BUSCADOR
-   ---------------------------------------------------------- */
+/* Panel de búsqueda */
 .panel-busqueda {
     position: relative;
     z-index: 10;
@@ -624,7 +708,7 @@ a.boton {
 
 .formulario-busqueda {
     display: grid;
-    grid-template-columns: 1.5fr repeat(3, 1fr) auto;
+    grid-template-columns: minmax(240px, 1fr) minmax(180px, 260px) auto;
     align-items: end;
     gap: 0.9rem;
 }
@@ -633,18 +717,20 @@ a.boton {
     min-height: 47px;
 }
 
-/* ----------------------------------------------------------
-    TARJETAS Y SECCIONES
-   ---------------------------------------------------------- */
-.rejilla-tarjetas,
+/* Tarjetas de destinos y hoteles */
+.rejilla-destinos,
 .rejilla-hoteles {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1.4rem;
+    align-items: stretch;
 }
 
 .tarjeta-destino,
 .tarjeta-hotel {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     overflow: hidden;
     background: var(--blanco);
     border: 1px solid var(--gris-claro);
@@ -653,105 +739,109 @@ a.boton {
     transition: transform var(--transicion), box-shadow var(--transicion);
 }
 
+.tarjeta-destino {
+    max-width: 380px;
+}
+
 .tarjeta-destino:hover,
 .tarjeta-hotel:hover {
     transform: translateY(-6px);
     box-shadow: var(--sombra);
 }
 
-.tarjeta-destino>img {
+.tarjeta-destino>img,
+.tarjeta-hotel>img {
     width: 100%;
-    height: 230px;
+    height: 210px;
     object-fit: cover;
 }
 
-.contenido-tarjeta {
+.tarjeta-destino>div,
+.tarjeta-hotel>div {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
     padding: 1.25rem;
 }
 
-.contenido-tarjeta h3 {
-    margin: 0.35rem 0 0.55rem;
-    color: var(--verde-oscuro);
-    font-size: 1.3rem;
-}
-
-.contenido-tarjeta p {
-    color: var(--gris-texto);
-}
-
-.ubicacion {
-    color: var(--azul-oscuro);
-    font-size: 0.82rem;
-    font-weight: 750;
-}
-
-.pie-tarjeta {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    margin-top: 1rem;
-    padding-top: 1rem;
-    border-top: 1px solid var(--gris-claro);
-}
-
-.pie-tarjeta strong {
-    color: var(--verde-medio);
-}
-
-.pie-tarjeta a {
-    font-weight: 700;
-}
-
-.imagen-hotel {
-    position: relative;
-    height: 210px;
-    background-position: center;
-    background-size: cover;
-}
-
-.imagen-hotel span {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    padding: 0.35rem 0.65rem;
-    color: var(--verde-oscuro);
-    background: var(--blanco);
-    border-radius: 20px;
-    font-size: 0.82rem;
-    font-weight: 800;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.16);
-}
-
-.hotel-arenal {
-    background-image: linear-gradient(rgba(11, 61, 46, 0.08), rgba(11, 61, 46, 0.18)), url("../img/hotel-arenal.jpg");
-}
-
-.hotel-monteverde {
-    background-image: linear-gradient(rgba(11, 61, 46, 0.08), rgba(11, 61, 46, 0.18)), url("../img/hotel-monteverde.jpg");
-}
-
-.hotel-pacifico {
-    background-image: linear-gradient(rgba(11, 61, 46, 0.08), rgba(11, 61, 46, 0.18)), url("../img/hotel-manuelantonio.jpg");
-}
-
-.contenido-tarjeta strong small {
-    color: var(--gris-texto);
-    font-weight: 500;
+.tarjeta-destino p,
+.tarjeta-hotel p {
+    flex: 1;
+    overflow-wrap: anywhere;
 }
 
 .rejilla-actividades {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 1rem;
+    align-items: stretch;
 }
 
 .tarjeta-actividad {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
     padding: 1.6rem;
     background: var(--blanco);
     border: 1px solid var(--gris-claro);
     border-radius: var(--radio);
     transition: transform var(--transicion), border-color var(--transicion);
+}
+
+.tarjeta-actividad>img {
+    width: calc(100% + 3.2rem);
+    height: 180px;
+    margin: -1.6rem -1.6rem 1.2rem;
+    object-fit: cover;
+}
+
+.tarjeta-actividad>div {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+}
+
+.tarjeta-actividad p {
+    flex: 1;
+    overflow-wrap: anywhere;
+}
+
+.boton-tarjeta {
+    width: 100%;
+    margin-top: auto;
+    padding-top: 0.72rem;
+}
+
+.elemento-buscable[hidden] {
+    display: none;
+}
+
+.llamada-reserva {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    max-width: 1160px;
+    margin: 1rem auto 5rem;
+    padding: 2.5rem;
+    color: var(--blanco);
+    background: linear-gradient(120deg, var(--verde-oscuro), var(--azul-oscuro));
+    border-radius: var(--radio);
+    box-shadow: var(--sombra);
+}
+
+.llamada-reserva h2 {
+    max-width: 760px;
+    color: var(--blanco);
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+}
+
+.llamada-reserva .boton {
+    flex-shrink: 0;
+    min-height: 54px;
+    padding: 0.9rem 1.5rem;
+    font-size: 1rem;
 }
 
 .tarjeta-actividad:hover {
@@ -780,145 +870,7 @@ a.boton {
     font-size: 0.92rem;
 }
 
-.banda-informativa {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 2rem;
-    max-width: 1160px;
-    margin-bottom: 4rem;
-    padding: 2.7rem;
-    color: var(--blanco);
-    background: linear-gradient(120deg, var(--verde-oscuro), var(--azul-oscuro));
-    border-radius: var(--radio);
-    box-shadow: var(--sombra);
-}
-
-.banda-informativa h2 {
-    margin-bottom: 0.6rem;
-    font-size: clamp(1.7rem, 3vw, 2.5rem);
-    line-height: 1.2;
-}
-
-.banda-informativa p {
-    max-width: 760px;
-    color: #dfede6;
-}
-
-.rejilla-modulos {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-}
-
-.rejilla-modulos article {
-    padding: 1.4rem;
-    background: var(--blanco);
-    border-left: 5px solid var(--verde-claro);
-    border-radius: 12px;
-    box-shadow: 0 6px 16px rgba(11, 61, 46, 0.06);
-}
-
-.rejilla-modulos article:nth-child(2n) {
-    border-left-color: var(--azul);
-}
-
-.rejilla-modulos article:nth-child(3n) {
-    border-left-color: var(--rojo);
-}
-
-.rejilla-modulos span {
-    font-size: 1.5rem;
-}
-
-.rejilla-modulos h3 {
-    margin-top: 0.5rem;
-    color: var(--verde-oscuro);
-}
-
-.rejilla-modulos p {
-    color: var(--gris-texto);
-    font-size: 0.9rem;
-}
-
-/* ----------------------------------------------------------
-    FORMULARIOS SECUNDARIOS
-   ---------------------------------------------------------- */
-.pagina-secundaria {
-    display: grid;
-    place-items: center;
-    min-height: 100vh;
-    padding: 2rem 1rem;
-    background:
-        radial-gradient(circle at top right, rgba(116, 198, 157, 0.3), transparent 35%),
-        linear-gradient(135deg, #f7fbf8, #edf5f8);
-}
-
-.tarjeta-formulario-secundario {
-    width: min(100%, 620px);
-    padding: clamp(1.5rem, 5vw, 3rem);
-    background: var(--blanco);
-    border-top: 7px solid var(--verde-oscuro);
-    border-radius: var(--radio);
-    box-shadow: var(--sombra);
-}
-
-.tarjeta-formulario-secundario h1 {
-    margin-bottom: 0.5rem;
-    color: var(--verde-oscuro);
-    font-size: 2.2rem;
-}
-
-.tarjeta-formulario-secundario>p {
-    margin-bottom: 1.6rem;
-    color: var(--gris-texto);
-}
-
-.formulario-secundario {
-    display: grid;
-    gap: 1rem;
-}
-
-.volver {
-    display: inline-block;
-    margin-bottom: 1.8rem;
-    font-weight: 700;
-}
-
-.centrado {
-    text-align: center;
-}
-
-.icono-grande {
-    margin-bottom: 0.5rem;
-    font-size: 4rem;
-}
-
-/* ----------------------------------------------------------
-    PIE DE PÁGINA
-   ---------------------------------------------------------- */
-.pie-pagina {
-    display: flex;
-    justify-content: space-between;
-    gap: 2rem;
-    padding: 2.5rem max(1.4rem, calc((100% - 1200px) / 2 + 1.4rem));
-    color: #d7e5dd;
-    background: var(--verde-oscuro);
-}
-
-.pie-pagina strong {
-    color: var(--blanco);
-    font-size: 1.15rem;
-}
-
-.pie-pagina p {
-    font-size: 0.86rem;
-}
-
-/* ----------------------------------------------------------
-    DISEÑO RESPONSIVE
-    Se reorganizan elementos para tabletas y teléfonos.
-   ---------------------------------------------------------- */
+/* Diseño adaptable */
 @media (max-width: 1080px) {
     .login-contenedor {
         grid-template-columns: 1fr 1fr;
@@ -968,13 +920,20 @@ a.boton {
         grid-column: span 2;
     }
 
-    .rejilla-tarjetas,
     .rejilla-hoteles {
         grid-template-columns: repeat(2, 1fr);
     }
 
     .rejilla-actividades {
         grid-template-columns: repeat(2, 1fr);
+    }
+
+    .contenedor-login {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .informacion-login {
+        padding: 2.5rem;
     }
 }
 
@@ -1056,18 +1015,16 @@ a.boton {
         padding: 1.3rem;
     }
 
-    .encabezado-seccion,
-    .encabezado-seccion.compacto {
+    .encabezado-seccion {
         align-items: flex-start;
         flex-direction: column;
         gap: 0.7rem;
     }
 
     .formulario-busqueda,
-    .rejilla-tarjetas,
+    .rejilla-destinos,
     .rejilla-hoteles,
-    .rejilla-actividades,
-    .rejilla-modulos {
+    .rejilla-actividades {
         grid-template-columns: 1fr;
     }
 
@@ -1075,16 +1032,34 @@ a.boton {
         grid-column: auto;
     }
 
-    .banda-informativa,
-    .pie-pagina {
+    .llamada-reserva {
         align-items: flex-start;
         flex-direction: column;
     }
 
-    .banda-informativa {
-        margin-left: 1rem;
-        margin-right: 1rem;
+    .llamada-reserva {
+        margin: 1rem 1rem 3rem;
         padding: 2rem 1.4rem;
+    }
+
+    .contenedor-login {
+        display: block;
+    }
+
+    .informacion-login {
+        min-height: 420px;
+        padding: 2rem 1.4rem;
+    }
+
+    .informacion-login::after {
+        top: auto;
+        bottom: 0;
+        width: 100%;
+        height: 7px;
+    }
+
+    .formulario-login {
+        padding: 2.5rem 1.4rem;
     }
 }
 
@@ -1107,4 +1082,354 @@ a.boton {
     .contenido-carrusel h2 {
         font-size: 2.2rem;
     }
+}
+
+/* Módulos internos del sistema */
+.pagina-sistema {
+    background: var(--gris-fondo);
+}
+
+.barra-sistema {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 4vw;
+    color: var(--blanco);
+    background: var(--verde-oscuro);
+}
+
+.marca-sistema {
+    color: var(--blanco);
+    font-weight: 800;
+}
+
+.barra-sistema nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+}
+
+.barra-sistema nav a {
+    padding: 0.45rem 0.7rem;
+    color: var(--blanco);
+    border-radius: 8px;
+}
+
+.barra-sistema nav a:hover,
+.barra-sistema nav a.activo {
+    background: rgba(255, 255, 255, 0.18);
+}
+
+.contenido-sistema {
+    width: min(1120px, 92%);
+    margin: 2rem auto 4rem;
+}
+
+.titulo-modulo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+
+.titulo-modulo h1 {
+    color: var(--verde-oscuro);
+}
+
+.buscador-modulo {
+    display: flex;
+    gap: 0.7rem;
+    margin-bottom: 1.5rem;
+}
+
+.buscador-modulo input {
+    flex: 1;
+    padding: 0.8rem;
+    border: 1px solid #ccd7d0;
+    border-radius: 9px;
+}
+
+.panel-formulario,
+.formulario-crud,
+.panel-reporte {
+    margin-bottom: 1.5rem;
+    padding: 1.25rem;
+    background: var(--blanco);
+    border: 1px solid #dfe7e2;
+    border-radius: 14px;
+    box-shadow: 0 8px 24px rgba(16, 58, 42, 0.06);
+}
+
+.panel-formulario summary {
+    cursor: pointer;
+    color: var(--verde-oscuro);
+    font-weight: 800;
+}
+
+.formulario-crud {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.formulario-crud label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    color: var(--verde-oscuro);
+    font-weight: 700;
+}
+
+.formulario-crud input,
+.formulario-crud select,
+.formulario-crud textarea {
+    min-height: 44px;
+    padding: 0.7rem;
+    border: 1px solid #cad5ce;
+    border-radius: 8px;
+}
+
+.formulario-crud textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.ancho-completo {
+    grid-column: 1 / -1;
+}
+
+.rejilla-catalogo {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.2rem;
+    align-items: start;
+}
+
+.tarjeta-catalogo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    min-width: 0;
+    max-width: 360px;
+    width: 100%;
+    min-height: 100%;
+    padding: 1.25rem;
+    background: var(--blanco);
+    border-radius: 14px;
+    box-shadow: 0 8px 25px rgba(16, 58, 42, 0.08);
+}
+
+.tarjeta-catalogo h2 {
+    color: var(--verde-oscuro);
+    font-size: 1.25rem;
+}
+
+.imagen-catalogo {
+    width: calc(100% + 2.5rem);
+    height: 190px;
+    margin: -1.25rem -1.25rem 0;
+    object-fit: cover;
+    border-radius: 14px 14px 0 0;
+}
+
+.acciones-tarjeta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 0.5rem;
+    width: 100%;
+    margin-top: auto;
+}
+
+.acciones-tarjeta form {
+    display: flex;
+    margin: 0;
+}
+
+.acciones-tarjeta .boton {
+    width: 100%;
+    min-height: 42px;
+    padding: 0.55rem 0.8rem;
+    font-size: 0.88rem;
+}
+
+.tarjeta-catalogo p {
+    overflow-wrap: anywhere;
+}
+
+.tabla-responsive {
+    overflow-x: auto;
+    background: var(--blanco);
+    border-radius: 12px;
+}
+
+.tabla-responsive table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tabla-responsive th,
+.tabla-responsive td {
+    padding: 0.8rem;
+    text-align: left;
+    border-bottom: 1px solid #e3e9e5;
+}
+
+.tabla-responsive th {
+    color: var(--blanco);
+    background: var(--verde-oscuro);
+}
+
+.panel-reporte h2 {
+    margin-bottom: 1rem;
+    color: var(--verde-oscuro);
+}
+
+.barras-reporte div {
+    display: grid;
+    grid-template-columns: 180px 1fr 90px;
+    align-items: center;
+    gap: 0.8rem;
+    margin: 0.6rem 0;
+}
+
+.barras-reporte i {
+    display: block;
+    min-width: 3px;
+    height: 16px;
+    background: linear-gradient(90deg, var(--verde-claro), var(--azul));
+    border-radius: 8px;
+}
+
+.detalle-destino {
+    display: grid;
+    grid-template-columns: minmax(280px, .85fr) 1.15fr;
+    gap: 2rem;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding: 1.5rem;
+    background: var(--blanco);
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(16, 58, 42, .08);
+}
+
+.detalle-destino>img {
+    width: 100%;
+    height: 330px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.detalle-destino h1 {
+    margin: 0.4rem 0 1rem;
+    color: var(--verde-oscuro);
+}
+
+.mapa-destino {
+    height: 380px;
+    margin-bottom: 1.5rem;
+    border-radius: 14px;
+}
+
+.seccion-detalle {
+    margin: 2rem 0;
+}
+
+.seccion-detalle h2 {
+    margin-bottom: 1rem;
+    color: var(--verde-oscuro);
+}
+
+.comentario-destino {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #f3f7f4;
+    border-radius: 10px;
+}
+
+.comentario-destino p {
+    margin-top: 0.45rem;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.perfil-actual {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: var(--blanco);
+    border: 1px solid #dfe7e2;
+    border-radius: 14px;
+}
+
+.perfil-actual img {
+    width: 88px;
+    height: 88px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.perfil-actual p {
+    margin-top: 0.25rem;
+    color: var(--gris-texto);
+}
+
+.formulario-en-linea {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+@media (max-width: 800px) {
+    .barra-sistema {
+        position: static;
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 700px) {
+    .detalle-destino {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 560px) {
+
+    .rejilla-catalogo,
+    .formulario-crud {
+        grid-template-columns: 1fr;
+    }
+
+    .tarjeta-catalogo {
+        max-width: none;
+    }
+
+    .ancho-completo {
+        grid-column: auto;
+    }
+
+    .buscador-modulo {
+        flex-direction: column;
+    }
+
+    .barras-reporte div {
+        grid-template-columns: 100px 1fr 65px;
+    }
+}
+
+.estado-vacio {
+    grid-column: 1 / -1;
+    padding: 1.25rem;
+    color: var(--gris-texto);
+    text-align: center;
+    background: var(--blanco);
+    border: 1px dashed #c8d5cd;
+    border-radius: 12px;
 }

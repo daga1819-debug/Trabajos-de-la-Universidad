@@ -1,6 +1,4 @@
-/*
-    Creamos la base de datos
-  */
+-- Crea la base de datos utilizada por la aplicación
 CREATE DATABASE viajar_es_pura_vida
 CHARACTER SET utf8mb4
 COLLATE utf8mb4_unicode_ci;
@@ -17,12 +15,12 @@ CREATE TABLE usuarios (
     telefono VARCHAR(20) NULL,
     fotografia VARCHAR(255) NULL,
 
--- La contraseña se almacena de forma segura mediante hashing
+-- La contraseña se almacena únicamente como hash seguro
     contrasena VARCHAR(255) NOT NULL,
 
--- Persmisos de los usuario
+-- Rol utilizado para controlar los permisos del usuario
     rol ENUM('administrador', 'cliente') NOT NULL DEFAULT 'cliente',
--- Desactivar usuario sin elimiar usuario
+-- Permite desactivar un usuario sin eliminar su historial
     estado ENUM('activo', 'inactivo') NOT NULL DEFAULT 'activo',
 -- Token para recuperación de contraseña
     token_recuperacion VARCHAR(255) NULL,
@@ -36,6 +34,33 @@ CREATE TABLE usuarios (
     PRIMARY KEY (id_usuario),
     UNIQUE KEY uk_usuarios_correo (correo)
 )ENGINE=InnoDB;
+
+-- Usuarios iniciales para acceder al sistema después de importar la base de datos
+
+INSERT INTO usuarios (
+    nombre,
+    correo,
+    telefono,
+    contrasena,
+    rol,
+    estado
+) VALUES
+(
+    'Administrador',
+    'admin@viajarespuravida.cr',
+    NULL,
+    '$2y$10$gukQP3eatOCDKwdmVMODqe4fgh7n2476N/SMteL8BJtV8yzVxNMDK',
+    'administrador',
+    'activo'
+),
+(
+    'Cliente de prueba',
+    'cliente@viajarespuravida.cr',
+    NULL,
+    '$2y$10$mYnYSxh1DSjD0nd/kN/CW.Bg4xmDrBUSLv.O/m0EjSemfGIJi2kmG',
+    'cliente',
+    'activo'
+);
 
 -- Tabla de destinos
 
@@ -428,7 +453,7 @@ INSERT INTO destinos (
     'La Fortuna y Volcán Arenal',
     'Alajuela',
     'Destino reconocido por el Volcán Arenal, sus aguas termales, senderos y actividades de aventura.',
-    'arenal.jpg',
+    'assets/img/arenal.jpg',
     10.46780000,
     -84.64270000,
     'La Fortuna, San Carlos, Alajuela',
@@ -438,7 +463,7 @@ INSERT INTO destinos (
     'Monteverde',
     'Puntarenas',
     'Zona de bosque nuboso reconocida por su biodiversidad, senderos naturales y recorridos de canopy.',
-    'monteverde.jpg',
+    'assets/img/monteverde.jpg',
     10.30000000,
     -84.81670000,
     'Monteverde, Puntarenas',
@@ -448,7 +473,7 @@ INSERT INTO destinos (
     'Manuel Antonio',
     'Puntarenas',
     'Destino de playas, bosque tropical y vida silvestre ubicado en el Pacífico Central.',
-    'manuel-antonio.jpg',
+    'assets/img/manuel-antonio.jpg',
     9.39230000,
     -84.13670000,
     'Quepos, Puntarenas',
@@ -458,7 +483,7 @@ INSERT INTO destinos (
     'Río Celeste',
     'Alajuela',
     'Atracción natural conocida por el color azul de sus aguas dentro del Parque Nacional Volcán Tenorio.',
-    'rio-celeste.jpg',
+    'assets/img/rio-celeste.jpg',
     10.70100000,
     -85.01300000,
     'Guatuso, Alajuela',
@@ -468,7 +493,7 @@ INSERT INTO destinos (
     'Puerto Viejo',
     'Limón',
     'Destino caribeño reconocido por sus playas, cultura, gastronomía y riqueza natural.',
-    'puerto-viejo.jpg',
+    'assets/img/puerto-viejo.png',
     9.65400000,
     -82.75400000,
     'Talamanca, Limón',
@@ -499,7 +524,7 @@ INSERT INTO hoteles (
     55000.00,
     25,
     'Hotel con vista al Volcán Arenal, piscina y desayuno incluido.',
-    'hotel-arenal.jpg',
+    'assets/img/hotel-arenal.jpg',
     'activo'
 ),
 (
@@ -512,7 +537,7 @@ INSERT INTO hoteles (
     48000.00,
     18,
     'Hospedaje rodeado de naturaleza y cercano a las principales reservas.',
-    'hotel-monteverde.jpg',
+    'assets/img/hotel-monteverde.jpg',
     'activo'
 ),
 (
@@ -525,7 +550,7 @@ INSERT INTO hoteles (
     72000.00,
     35,
     'Resort cercano a la playa y al Parque Nacional Manuel Antonio.',
-    'hotel-manuel-antonio.jpg',
+    'assets/img/hotel-manuel-antonio.jpg',
     'activo'
 );
 
@@ -550,7 +575,7 @@ INSERT INTO actividades (
     18000.00,
     180,
     20,
-    'senderismo-arenal.jpg',
+    'assets/img/senderismo-actividad.jpg',
     'activo'
 ),
 (
@@ -561,7 +586,7 @@ INSERT INTO actividades (
     35000.00,
     240,
     15,
-    'rafting-balsa.jpg',
+    'assets/img/rafting-actividad.jpg',
     'activo'
 ),
 (
@@ -572,7 +597,7 @@ INSERT INTO actividades (
     32000.00,
     150,
     18,
-    'canopy-monteverde.jpg',
+    'assets/img/canopy-actividad.jpg',
     'activo'
 ),
 (
@@ -583,7 +608,7 @@ INSERT INTO actividades (
     25000.00,
     180,
     15,
-    'tour-manuel-antonio.jpg',
+    'assets/img/tour-actividad.jpg',
     'activo'
 ),
 (
@@ -594,6 +619,88 @@ INSERT INTO actividades (
     45000.00,
     240,
     10,
-    'buceo-caribe.jpg',
+    'assets/img/buceo-actividad.jpg',
     'activo'
 );
+
+-- Datos complementarios para que cada destino tenga opciones reservables
+
+INSERT INTO hoteles (
+    id_destino,
+    nombre,
+    categoria,
+    direccion,
+    telefono,
+    correo,
+    precio_noche,
+    cantidad_habitaciones,
+    descripcion,
+    imagen,
+    estado
+)
+SELECT
+    id_destino,
+    'Río Celeste Eco Lodge',
+    3,
+    'Guatuso, Alajuela',
+    '2466-0101',
+    'reservas@riocelesteecolodge.cr',
+    42000.00,
+    14,
+    'Hospedaje rodeado de naturaleza y cercano al Parque Nacional Volcán Tenorio.',
+    'assets/img/rio-celeste-hotel.jpg',
+    'activo'
+FROM destinos
+WHERE id_destino = 4;
+
+INSERT INTO hoteles (
+    id_destino,
+    nombre,
+    categoria,
+    direccion,
+    telefono,
+    correo,
+    precio_noche,
+    cantidad_habitaciones,
+    descripcion,
+    imagen,
+    estado
+)
+SELECT
+    id_destino,
+    'Caribe Sur Hotel',
+    4,
+    'Puerto Viejo, Talamanca',
+    '2750-0202',
+    'reservas@caribesurhotel.cr',
+    58000.00,
+    20,
+    'Hotel cercano a la playa, restaurantes y atractivos naturales del Caribe Sur.',
+    'assets/img/puerto-viejo-hotel.jpg',
+    'activo'
+FROM destinos
+WHERE id_destino = 5;
+
+INSERT INTO actividades (
+    id_destino,
+    nombre,
+    tipo,
+    descripcion,
+    precio,
+    duracion_minutos,
+    cupo_maximo,
+    imagen,
+    estado
+)
+SELECT
+    id_destino,
+    'Senderismo hacia Río Celeste',
+    'Senderismo',
+    'Recorrido guiado por los senderos del Parque Nacional Volcán Tenorio.',
+    22000.00,
+    180,
+    16,
+    'assets/img/senderismo-actividad.jpg',
+    'activo'
+FROM destinos
+WHERE id_destino = 4;

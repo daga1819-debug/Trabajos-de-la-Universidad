@@ -1,8 +1,4 @@
-/*
-    Cambio automático y manual de las imágenes del carrusel.
-    Apertura y cierre del menú en pantallas pequeñas.
-    Restricción básica de fechas del formulario de búsqueda.
- */
+// Cambio automático y manual de las imágenes del carrusel
 
 document.addEventListener('DOMContentLoaded', () => {
     const diapositivas = document.querySelectorAll('.diapositiva');
@@ -12,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let indiceActual = 0;
     let intervalo;
 
-    // Muestra una diapositiva y actualiza los indicadores.
+    // Muestra una diapositiva y actualiza los indicadores
     function mostrarDiapositiva(indice) {
         if (diapositivas.length === 0) {
             return;
@@ -56,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     reiniciarIntervalo();
 
-    // Menú adaptable para tabletas y teléfonos.
+    // Menú adaptable para tabletas y teléfonos
     const botonMenu = document.querySelector('.boton-menu');
     const menu = document.querySelector('.menu-principal');
 
@@ -72,21 +68,34 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Validación visual básica para impedir fechas anteriores al día actual.
-    const entrada = document.querySelector('#entrada');
-    const salida = document.querySelector('#salida');
-    const hoy = new Date().toISOString().split('T')[0];
+    // Filtra los catálogos de la página principal
+    const formularioBusqueda = document.querySelector('#buscador-principal');
+    const textoBusqueda = document.querySelector('#texto-busqueda');
+    const tipoBusqueda = document.querySelector('#tipo-busqueda');
+    const elementos = document.querySelectorAll('.elemento-buscable');
 
-    if (entrada && salida) {
-        entrada.min = hoy;
-        salida.min = hoy;
+    formularioBusqueda?.addEventListener('submit', (evento) => {
+        evento.preventDefault();
 
-        entrada.addEventListener('change', () => {
-            salida.min = entrada.value || hoy;
+        const texto = textoBusqueda.value.trim().toLocaleLowerCase('es');
+        const tipo = tipoBusqueda.value;
+        let primerResultado = null;
 
-            if (salida.value && salida.value < entrada.value) {
-                salida.value = entrada.value;
+        elementos.forEach((elemento) => {
+            const coincideTexto = elemento.dataset.busqueda
+                .toLocaleLowerCase('es')
+                .includes(texto);
+            const coincideTipo = tipo === 'todos' || elemento.dataset.tipo === tipo;
+            const visible = coincideTexto && coincideTipo;
+
+            elemento.hidden = !visible;
+
+            if (visible && primerResultado === null) {
+                primerResultado = elemento;
             }
         });
-    }
+
+        primerResultado?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+
 });

@@ -1,22 +1,44 @@
 <?php
-/*
-    Configuración general de la aplicación
- */
 
+// Configuración general compartida por todas las páginas de la aplicación
 define('APP_NAME', 'Viajar es Pura Vida');
-define('APP_VERSION', '2.0.0 - Conexión MySQL');
 
-/*
-    Zona horaria de Costa Rica
- */
 date_default_timezone_set('America/Costa_Rica');
 
-/*
-    Configuración de seguridad de las sesiones
- */
-// Evita que JavaScript pueda acceder a la cookie de sesión
+// Endurece la cookie de sesión durante el desarrollo local
 ini_set('session.cookie_httponly', '1');
-// Reduce el riesgo de solicitudes provenientes de páginas externas
 ini_set('session.cookie_samesite', 'Lax');
-// En localhost se mantiene en 0 porque todavía no utilizamos HTTPS
+// En localhost se mantiene desactivado porque XAMPP normalmente trabaja sin HTTPS
 ini_set('session.cookie_secure', '0');
+
+/*
+    Escapa texto antes de imprimirlo en HTML para evitar inyección de contenido
+ */
+function e(mixed $valor): string
+{
+    return htmlspecialchars((string) $valor, ENT_QUOTES, 'UTF-8');
+}
+
+/*
+    Convierte el valor almacenado en MySQL en una ruta pública utilizable por <img>
+ */
+function rutaImagen(?string $imagen, string $tipo = 'destinos'): string
+{
+    $imagen = trim((string) $imagen);
+
+    $imagenesPredeterminadas = [
+        'destinos' => 'assets/img/arenal.jpg',
+        'hoteles' => 'assets/img/hotel-eco.png',
+        'actividades' => 'assets/img/actividad-aventura.png',
+        'perfiles' => 'assets/img/arenal.jpg',
+    ];
+
+    if ($imagen === '') {
+        return $imagenesPredeterminadas[$tipo]
+            ?? $imagenesPredeterminadas['destinos'];
+    }
+
+    return str_contains($imagen, '/')
+        ? $imagen
+        : 'assets/img/' . $imagen;
+}

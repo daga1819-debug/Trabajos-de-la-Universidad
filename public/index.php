@@ -7,7 +7,7 @@ if (isset($_SESSION['usuario'])) {
     exit;
 }
 
-// Token utilizado para proteger el formulario contra solicitudes externas.
+// Token utilizado para proteger el formulario contra solicitudes externas
 if (!isset($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
@@ -15,6 +15,13 @@ if (!isset($_SESSION['csrf_token'])) {
 $error = (string) ($_SESSION['error'] ?? '');
 $correoAnterior = (string) ($_SESSION['correo_anterior'] ?? '');
 unset($_SESSION['error']);
+
+$registroExitoso =
+    $_SESSION['registro_exitoso'] ?? '';
+
+unset(
+    $_SESSION['registro_exitoso']
+);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -36,7 +43,7 @@ unset($_SESSION['error']);
                 <p>
                     Descubrí destinos, hoteles y actividades para crear experiencias inolvidables en Costa Rica.
                 </p>
-                    <!-- Sección de beneficios de viajar a Costa Rica. -->
+                <!-- Sección de beneficios de viajar a Costa Rica -->
                 <div class="beneficios-login">
                     <article>
                         <strong>7 provincias</strong>
@@ -53,7 +60,8 @@ unset($_SESSION['error']);
                 </div>
             </div>
         </section>
-            <!-- Sección de formulario de inicio de sesión. -->
+
+        <!-- Sección de formulario de inicio de sesión -->
         <section class="login-formulario-contenedor">
             <div class="login-marca">
                 <span>🌿</span>
@@ -68,9 +76,16 @@ unset($_SESSION['error']);
                 <h2>Iniciar sesión</h2>
                 <p>Ingrese sus datos para explorar el sistema.</p>
 
+                <!-- Sección de mensajes de éxito de registro -->
+                <?php if ($registroExitoso !== ''): ?>
+                    <div class="mensaje-exito">
+                        <?= e($registroExitoso) ?>
+                    </div>
+                <?php endif; ?>
+
                 <?php if ($error !== ''): ?>
                     <div class="mensaje mensaje-error" role="alert">
-                        <?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?>
+                        <?= e($error) ?>
                     </div>
                 <?php endif; ?>
 
@@ -78,7 +93,7 @@ unset($_SESSION['error']);
                     <input
                         type="hidden"
                         name="csrf_token"
-                        value="<?= htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES, 'UTF-8') ?>">
+                        value="<?= e($_SESSION['csrf_token']) ?>">
 
                     <div class="grupo-campo">
                         <label for="correo">Correo electrónico</label>
@@ -86,7 +101,7 @@ unset($_SESSION['error']);
                             type="email"
                             id="correo"
                             name="correo"
-                            value="<?= htmlspecialchars($correoAnterior, ENT_QUOTES, 'UTF-8') ?>"
+                            value="<?= e($correoAnterior) ?>"
                             placeholder="nombre@correo.com"
                             maxlength="100"
                             autocomplete="email"
@@ -99,18 +114,14 @@ unset($_SESSION['error']);
                             type="password"
                             id="contrasena"
                             name="contrasena"
-                            placeholder="Mínimo 6 caracteres"
-                            minlength="6"
-                            maxlength="50"
+                            placeholder="Mínimo 8 caracteres"
+                            minlength="8"
+                            maxlength="72"
                             autocomplete="current-password"
                             required>
                     </div>
 
-                    <div class="fila-formulario">
-                        <label class="casilla">
-                            <input type="checkbox" name="recordar" value="1">
-                            <span>Recordarme</span>
-                        </label>
+                    <div class="fila-formulario fila-formulario-derecha">
                         <a href="recuperar.php">¿Olvidaste tu contraseña?</a>
                     </div>
 
@@ -123,7 +134,7 @@ unset($_SESSION['error']);
                     ¿No tienes una cuenta?
                     <a href="registro.php">Registrate aquí</a>
                 </p>
-                <!-- Sección de credenciales de prueba para ingresar. -->
+                <!-- Sección de credenciales de prueba para ingresar -->
                 <aside class="credenciales-prueba">
                     <strong>Credenciales de prueba</strong>
                     <p>Administrador: admin@viajarespuravida.cr / Admin123</p>

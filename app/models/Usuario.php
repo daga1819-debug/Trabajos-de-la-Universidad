@@ -3,21 +3,15 @@
 require_once __DIR__ . '/../../config/database.php';
 
 /*
-    Esta clase representa el acceso a la tabla usuarios
+    Modelo responsable de autenticación, registro y recuperación de usuarios
  */
 class Usuario
 {
-
-    // Busca un usuario mediante su correo electrónico
-
+    /*
+        Busca un usuario por correo electrónico
+     */
     public static function buscarPorCorreo(string $correo): ?array
     {
-        $conexion = Database::conectar();
-
-        /*
-        El marcador :correo evita concatenar directamente información ingresada por el usuario
-        Esto protege contra inyección SQL
-         */
         $sql = '
             SELECT
                 id_usuario,
@@ -34,19 +28,18 @@ class Usuario
             LIMIT 1
         ';
 
-        $consulta = $conexion->prepare($sql);
-
+        $consulta = Database::conectar()->prepare($sql);
         $consulta->execute([
             'correo' => strtolower(trim($correo)),
         ]);
-        // fetch() devuelve false cuando no encuentra registros.
+
         $usuario = $consulta->fetch();
 
         return $usuario !== false ? $usuario : null;
     }
 
     /*
-        Verifica el correo y la contraseña de un usuario.
+        Valida correo, estado y contraseña. La contraseña nunca se devuelve a la vista
      */
     public static function autenticar(
         string $correo,
@@ -54,22 +47,13 @@ class Usuario
     ): ?array {
         $usuario = self::buscarPorCorreo($correo);
 
-
-        // Se devuelve null cuando el correo no existe, el usuario está inactivo o la contraseña es incorrecta.
-
-        if ($usuario === null) {
+        if (
+            $usuario === null
+            || $usuario['estado'] !== 'activo'
+            || !password_verify($contrasena, $usuario['contrasena'])
+        ) {
             return null;
         }
-
-        if ($usuario['estado'] !== 'activo') {
-            return null;
-        }
-
-        if (!password_verify($contrasena, $usuario['contrasena'])) {
-            return null;
-        }
-
-        // La contraseña nunca debe almacenarse en la sesión ni enviarse a una vista.
 
         unset($usuario['contrasena']);
 
@@ -77,7 +61,7 @@ class Usuario
     }
 
     /*
-        Registra un nuevo usuario cliente
+        Registra un cliente nuevo y guarda únicamente el hash de su contraseña
      */
     public static function crear(
         string $nombre,
@@ -85,8 +69,6 @@ class Usuario
         string $telefono,
         string $contrasena
     ): bool {
-        $conexion = Database::conectar();
-
         $sql = '
             INSERT INTO usuarios (
                 nombre,
@@ -105,29 +87,89 @@ class Usuario
             )
         ';
 
-        $consulta = $conexion->prepare($sql);
-
-        /*
-            Password_hash() transforma la contraseña en un hash seguro antes de guardarla.
-         */
-        $hash = password_hash(
-            $contrasena,
-            PASSWORD_DEFAULT
-        );
+        $consulta = Database::conectar()->prepare($sql);
 
         return $consulta->execute([
             'nombre' => trim($nombre),
             'correo' => strtolower(trim($correo)),
             'telefono' => trim($telefono),
-            'contrasena' => $hash,
+            'contrasena' => password_hash($contrasena, PASSWORD_DEFAULT),
             'rol' => 'cliente',
             'estado' => 'activo',
         ]);
     }
 
-    //  Verifica si ya existe un correo registrado.
+    /*
+        Indica si el correo ya está registrado
+     */
     public static function existeCorreo(string $correo): bool
     {
         return self::buscarPorCorreo($correo) !== null;
+    }
+
+    /*
+        Genera un token temporal de recuperación válido durante 30 minutos
+        En la base de datos se almacena el hash del token, no el token original
+     */
+    public static function crearTokenRecuperacion(string $correo): ?string
+    {
+        if (!self::existeCorreo($correo)) {
+            return null;
+        }
+
+        $token = bin2hex(random_bytes(24));
+        $consulta = Database::conectar()->prepare(
+            'UPDATE usuarios
+            SET token_recuperacion = :token,
+                token_expiracion = DATE_ADD(NOW(), INTERVAL 30 MINUTE)
+            WHERE correo = :correo'
+        );
+
+        $consulta->execute([
+            'token' => hash('sha256', $token),
+            'correo' => strtolower(trim($correo)),
+        ]);
+
+        return $token;
+    }
+
+    /*
+        Reemplaza la contraseña cuando el token existe y todavía no ha vencido
+     */
+    public static function restablecerContrasena(
+        string $token,
+        string $contrasena
+    ): bool {
+        $conexion = Database::conectar();
+        $consulta = $conexion->prepare(
+            'SELECT id_usuario
+            FROM usuarios
+            WHERE token_recuperacion = :token
+            AND token_expiracion > NOW()
+            LIMIT 1'
+        );
+
+        $consulta->execute([
+            'token' => hash('sha256', $token),
+        ]);
+
+        $usuario = $consulta->fetch();
+
+        if ($usuario === false) {
+            return false;
+        }
+
+        $consulta = $conexion->prepare(
+            'UPDATE usuarios
+            SET contrasena = :contrasena,
+                token_recuperacion = NULL,
+                token_expiracion = NULL
+            WHERE id_usuario = :id'
+        );
+
+        return $consulta->execute([
+            'contrasena' => password_hash($contrasena, PASSWORD_DEFAULT),
+            'id' => $usuario['id_usuario'],
+        ]);
     }
 }
